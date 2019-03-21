@@ -1,9 +1,11 @@
-# Home Assistant configuration
-This is my [Home Assistant](https://home-assistant.io/) configuration. It is installed on a Raspberry Pi 3, using the [All in One installer](https://home-assistant.io/docs/installation/raspberry-pi-all-in-one/), on a 16 GB card. I use a [Razberry](https://razberry.z-wave.me/) board for Z-Wave control.
+# Home Assistant (0.88.2) configuration
+This is my [Home Assistant](https://home-assistant.io/) configuration, I'm currently running 0.88.2. It is installed on a Raspberry Pi 3, using the old All in One installer (effectively a [manual install like this](https://blog.ceard.tech/2017/12/installing-home-assistant-in-virtual.html), on a 16 GB card, that I've [upgraded to Python 3.6](https://blog.ceard.tech/2017/12/upgrading-python-virtual-environment.html). I use a [Razberry](https://razberry.z-wave.me/) board for Z-Wave control.
 
-To limit the risk brought by SD card corruption (a known risk with Pi3) I store the Home Assistant database on a USB stick, and use a multi-port USB charger with sufficient power for all ports, but have left one unused. The power cables are short, and high quality, to minimise issues with voltage drop. For backups I use a USB micro-SD reader and [rpi-clone](https://github.com/billw2/rpi-clone) to provide live-boot backups, [rsnapshot](http://rsnapshot.org/) for on-site backups (from another Pi3), and [rclone](https://rclone.org/) for offsite backups to [Backblaze B2](https://www.backblaze.com/b2/cloud-storage.html).
+To limit the risk brought by SD card corruption (a known risk with Pi3) I store the Home Assistant database on a USB stick, and use a multi-port USB charger with sufficient power for all ports, but have left one unused. The power cables are short, and high quality, to minimise issues with voltage drop. Of course, I also take [many different backups](https://blog.ceard.tech/2017/10/backing-up-home-assistant.html) to reduce the risk of losing anything.
 
 This is one of a number of Pi3s I've got, and they're all in a [Multi-Pi stackable case](https://www.modmypi.com/raspberry-pi/cases-183/multi-pi-stacker/multi-pi-stackable-raspberry-pi-case), to keep the footprint down. They share an HDMI cable to a nearby monitor, and an old USB keyboard I've got kicking around, because having a Pi fail to respond isn't that uncommon.
+
+Each directory has a short readme explaining what's in there, and the purpose of each file or group of files.
 
 ## On the Pi itself I run
 
@@ -19,103 +21,77 @@ This is one of a number of Pi3s I've got, and they're all in a [Multi-Pi stackab
     * All the mobiles are home, as is the tablet. 
     * Oh, and the printer isn't yet low on consumables.
   * The floorplan was created in [Inkscape](https://inkscape.org/), by importing the image of the house's floorplan from the purchase paperwork, then drawing over it. If you look [at it](www/custom_ui/floorplan/floorplan.svg) you'll see that I built it up in layers, one for the foundation (ground), one for the structure, and one for the sensors. I don't really use those currently, other than to ensure that the right things are on top (sensors).
-* [HA Dashboard](https://appdaemon.readthedocs.io/en/latest/DASHBOARD_INSTALL.html) for a "finger friendly" interface
-  * ![Screenshot of HA Dashboard](https://i.imgur.com/gEvzY9x.png)
 * [nginx](https://nginx.org/en/) to provide remote access, in conjunction with [Let's Encrypt](https://letsencrypt.org/)
+* [Mosquitto](https://mosquitto.org/) for the MQTT broker
+
+I used to run the following, but don't currently:
+
+* [HA Dashboard](https://appdaemon.readthedocs.io/en/latest/DASHBOARD_INSTALL.html) for a "finger friendly" interface, but it's been replaced by the new Google Home app (for now anyway)
+  * ![Screenshot of HA Dashboard](https://i.imgur.com/gEvzY9x.png)
+
+## The devices, services, and software I use (with HA)
+
+* [Sandisk Extreme](https://www.sandisk.co.uk/home/memory-cards/microsd-cards/extreme-microsd) micro SD cards
+* [Z-Wave](https://home-assistant.io/docs/z-wave/)
+  * Z-Wave.me [Razberry](https://razberry.z-wave.me/) Z-Wave board - it has the advantage of not using a USB port, but does require that the onboard Bluetooth is disabled
+  * Aeotec [MultiSensor 6](https://aeotec.com/z-wave-sensor)
+  * Fibaro [motion sensor](https://www.fibaro.com/en/products/motion-sensor/) in the living room
+  * Fibaro FGK10x door sensors (previous generation, superseded by the [FGDW-002](http://manuals.fibaro.com/door-window-sensor-2/)) on the garage doors
+  * Sensative [door/window strips](https://www.stripsbysensative.com/strips-guard/) on the external house doors
+  * TKB [TKB TZ69E](http://www.tkbhome.com/?cn-p-d-271.html) - metering wall plugs
+  * Foxx Project [Smart Switch](https://www.getfoxx.com/products) (which identifies itself as an Aeotec ZW075, aka Smart Switch Gen5). These are cheap, but there's no local switch control for the attached device. Mostly I'm using these as range extenders.
+  * NodOn [Octan Remote](http://nodon.fr/en/z-wave/octan-remote_7-2) in the master bedroom to provide manual control of the Yeelight. It was originally used by the kitchen door, where the next item is now mounted.
+  * NodOn [Soft Remote](https://nodon.fr/en/nodon/z-wave-soft-remote/) in the second bedroom, to also provide manual control of that room's Yeelight.
+  * Z-Wave.me [WALLC-S](http://eng.z-wave.me/index.php?id=30) wall controller, to provide a wall switch for the garden lights
+* Lighting
+  * [Yeelight](https://home-assistant.io/components/light.yeelight/) component and [led strips](https://www.yeelight.com/en_US/product/pitaya), one mounted behind the headboard in the master bedroom, and one along the wall side of the bed frame in the second bedroom. These provide good enough lighting to read by at night, and also to help wake us in the morning.
+  * Outdoor mains [240V LED strip](https://www.lightingever.co.uk/220-240-v-ac-led-strip-multicolour-5050-50m.html) which we turn on and off with one of the wall plugs
+  * [Philips Hue](https://www.home-assistant.io/components/hue/) compatible LED strips built following [this guide](https://char.gd/blog/2018/building-better-cheaper-philips-hue-led-strips), using the [Gledopto GL-C-008](https://www.aliexpress.com/item/GLEDOPTO-ZIGBEE-Led-Controller-Amazon-Echo-hue-lightify-tradfri-compatible-LED-controller-RGB-CCT-WW-CW/32858603964.html) RGB+CCT LED Controller, a roll of RGB-CCT LED tape, and a 24V power supply
+  * [Philips Hue](https://www2.meethue.com/en-gb/p/hue-bridge/8718696516850) bridge (v2)
+* [Nabu Casa cloud](https://www.nabucasa.com/config/), which is a paid service, instead of the previous [Google Assistant](https://home-assistant.io/components/google_assistant/) component. 
+  I use this with a bunch of [Google Home Minis](https://store.google.com/product/google_home_mini), a couple of [Google Home Hubs](https://store.google.com/product/google_home_hub), 
+  and a [Lenovo Smart Display](https://www.lenovo.com/gb/en/consumer-tablet-and-smart-device/lenovo-smart-device/smart-core-device/Smart-Display-10/p/ZA3N0006GB)
+* Media
+  * [Sonos](https://www.sonos.com/) speakers and [component](https://home-assistant.io/components/media_player.sonos/)
+  * [Squeezebox Radio](http://support.logitech.com/en_us/product/squeezebox-radio-black) as a smart alarm clock, and [associated component](https://home-assistant.io/components/media_player.squeezebox/)
+* Notifications:
+  * [Pushover](https://pushover.net/) for lightweight notifications to phones/tablets, and I'm looking at replacing it with the [REST notifier](https://www.home-assistant.io/components/notify.rest/) and [Discord](https://discordapp.com/)
+  * [LaMetric](https://lametric.com/) for [notifications](https://home-assistant.io/components/notify.lametric/) "in person", and it's a clock the rest of the time
+  * [TTS](https://home-assistant.io/components/tts/) with the Google Home Mini's, Sonos, and Squeezeboxes
+* Presence detection:
+  * Back to using [Nmap](https://nmap.org/) for [device tracking](https://home-assistant.io/components/device_tracker.nmap_tracker/). While I did switch to [Fritz!Box](https://en.avm.de/) [device tracking](https://www.home-assistant.io/components/device_tracker.fritz/) when I upgraded my router, the router ran out of memory
+  * [Monitor](https://github.com/andrewjfreyer/monitor) on another Pi3, and a Pi Zero W. This has completely replaced the use of the built in Bluetooth device tracker, and more than halved the startup time of HA.
+  * [GPS Logger](https://home-assistant.io/components/device_tracker.gpslogger/) for remote device tracking
+    * I used to use [OwnTracks](http://owntracks.org/) for device tracking, using the [HTTP interface](https://home-assistant.io/components/device_tracker.owntracks_http/), but not only did it have an [annoying bug](https://github.com/owntracks/android/issues/508) that caused it to randomly disable reporting, but it had been abandoned by the developer. Version 2.0 of the app solved both of those, but I've seen no reason to go back.
+* [TransportAPI](https://developer.transportapi.com/) for information on the local train service with the [UK transport](https://home-assistant.io/components/sensor.uk_transport/) component
+* [DarkSky](https://darksky.net/dev/) for weather data, alongside the [Met Office](https://www.metoffice.gov.uk/datapoint), along with the [associated](https://home-assistant.io/components/sensor.darksky/) sensor [components](https://home-assistant.io/components/sensor.metoffice/)
+* [Plex](https://www.plex.tv/sign-in/) for watching media, on TV, tablets and mobiles. I don't currently use [the component](https://home-assistant.io/components/media_player.plex/)
+* [Xbox Live sensor](https://home-assistant.io/components/sensor.xbox_live/) which uses the [XBoxAPI](https://xboxapi.com/) to track when one of us is on the XBox
+* [Google Travel Time component](https://home-assistant.io/components/sensor.google_travel_time/) which uses the Google [Distance Matrix](https://developers.google.com/maps/documentation/distance-matrix/) to provide estimated time to home
+* [Getmail](http://pyropus.ca/software/getmail/) with [a script](local/bin/parse-email) that acts as the message delivery agent, to parse the recycling collection emails
+  * I gave up on the the [IMAP email content](https://home-assistant.io/components/sensor.imap_email_content/) sensor since it doesn't keep state through restarts (which isn't unique to it, Home Assistant doesn't have a persistence mechanism other than for the `input_*` entities)
+* A HiWatch IPC-T140 dome camera, using the generic camera component. It's a 4K camera, and the Pi3 can't keep up when I use the FFMPEG component. I use the camera's built in motion detection, writing to a 200 GB SMB share (there's a firmware issue apparently, if the share is above that the camera gets confused and won't write).
+
+### Other software
+
+* [PiVPN](http://www.pivpn.io/) for remote access to my network
+* [Pi Hole](https://pi-hole.net/) for blocking those pesky adverts
+* [netdata](https://my-netdata.io/) so I can keep an eye on the performance
 * [rpi-clone](https://github.com/billw2/rpi-clone) for bootable backups
 * [rclone](https://rclone.org/) for offsite backups
-* [pi-hole](https://pi-hole.net/) so I can easily block "smart" devices from calling home
-* [netdata](https://my-netdata.io/) so I can keep an eye on the performance
-* [LaMetric](https://lametric.com/) a clock and low resolution display
-* [Nmap](https://nmap.org/) to support on network device tracking
-  * _I used to use [mosquitto](https://mosquitto.org/) to provide local MQTT services, and bridge to [CloudMQTT](https://www.cloudmqtt.com/), for location tracking. Having ditched OwnTracks MQTT I no longer needed it, so removed it._
-
-## The devices I use (with HA)
-
-* Z-Wave.me [Razberry](https://razberry.z-wave.me/) Z-Wave board - it has the advantage of not using a USB port, but does require that the onboard Bluetooth is disabled
-* [Sandisk Extreme](https://www.sandisk.co.uk/home/memory-cards/microsd-cards/extreme-microsd) micro SD cards
-* Aeotec [MultiSensor 6](https://aeotec.com/z-wave-sensor)
-* Fibaro [motion sensor](https://www.fibaro.com/en/products/motion-sensor/) in the living room
-* Fibaro FGK10x door sensors (previous generation, superseded by the [FGDW-002](http://manuals.fibaro.com/door-window-sensor-2/)) on the garage doors
-* Sensative [door/window strips](https://www.stripsbysensative.com/strips-guard/) on the external house doors
-* TKB [TKB TZ69E](http://www.tkbhome.com/?cn-p-d-271.html) - metering wall plugs
-* Foxx Project [Smart Switch](https://www.getfoxx.com/products) (which identifies itself as an Aeotec ZW075, aka Smart Switch Gen5). These are cheap, but there's no local switch control for the attached device. Mostly I'm using these as range extenders.
-* NodOn [Octan Remote](http://nodon.fr/en/z-wave/octan-remote_7-2) in the master bedroom to provide manual control of the Yeelight. It was originally used by the kitchen door, where the next item is now mounted.
-* NodOn [Soft Remote](https://nodon.fr/en/nodon/z-wave-soft-remote/) in the second bedroom, to also provide manual control of that room's Yeelight.
-* Z-Wave.me [WALLC-S](http://eng.z-wave.me/index.php?id=30) wall controller, to provide a wall switch for the garden lights
-* Yeelight [led strips](https://www.yeelight.com/en_US/product/pitaya), one mounted behind the headboard in the master bedroom, and one along the wall side of the bed frame in the second bedroom. These provide good enough lighting to read by at night, and also to help wake us in the morning.
-* Outdoor mains [240V led strip](https://www.lightingever.co.uk/220-240-v-ac-led-strip-multicolour-5050-50m.html) which we turn on and off with one of the wall plugs
-* [CSL Bluetooth adapter](https://www.amazon.co.uk/gp/product/B00VFT4LD2/) for the [Bluetooth device tracker](https://home-assistant.io/components/device_tracker.bluetooth_tracker/), to augment the Nmap device tracker (uses a CSR8510 A10 chip)
-* [Google Home Mini](https://store.google.com/product/google_home_mini), with the [Google Assistant](https://home-assistant.io/components/google_assistant/) component
-
-## The services and other software I use
-
-* Notifications:
-  * [HTML5 push](https://home-assistant.io/components/notify.html5/), alongside [Pushover](https://pushover.net/) for lightweight notifications to phones/tablets, and for rich notifications I'm experimenting with [Slack](https://slack.com/)
-  * [LaMetric](https://lametric.com/) for notifications "in person"
-  * [TTS](https://home-assistant.io/components/tts/) with the Google Home Mini's, Sonos, and Squeezeboxes
-* [GPS Logger](https://home-assistant.io/components/device_tracker.gpslogger/) for remote device tracking
-  * I used to use [OwnTracks](http://owntracks.org/) for device tracking, using the [HTTP interface](https://home-assistant.io/components/device_tracker.owntracks_http/), but not only does it have an [annoying bug](https://github.com/owntracks/android/issues/508) that causes it to randomly disable reporting, but it's been abandoned by the developer
-* [TransportAPI](https://developer.transportapi.com/) for information on the local train service
-* [DarkSky](https://darksky.net/dev/) for weather data, alongside the [Met Office](https://www.metoffice.gov.uk/datapoint)
-* [Plex](https://www.plex.tv/sign-in/) for watching media, on TV, tablets and mobiles
-* [XBoxAPI](https://xboxapi.com/) to track when one of us is on the XBox
-* Google [Distance Matrix](https://developers.google.com/maps/documentation/distance-matrix/) to provide estimated time to home
-* [Getmail](http://pyropus.ca/software/getmail/) with [a script](local/bin/parse-email) that acts as the message delivery agent, to parse the recycling collection emails
-  * I gave up on the the [IMAP email content](https://home-assistant.io/components/sensor.imap_email_content/) sensor since it doesn't keep state through restarts (which isn't unique to it, Home Assistant doesn't have a persistence mechanism)
+* [rsnapshot](https://rsnapshot.org/) runs on another system, and pulls backups 
 
 ## Presence detection
 
-* If you were following along, you'll note I use three different device trackers, two for home (nmap, bluetooth) and one for away (GPSLogger). Bluetooth is needed because modern smart phones will turn off WiFi when they're idle, and the combination gives me high confidence "at home" detection. GPS Logger gives me geolocation, for location and travel time automations.
-
-## Automations
-
-* Master and second bedrooms
-  * Using the remote with the light strip to control the light, including dimming and colour temperature
-  * Dim the light through the night, turning it to lowest brightness and red at midnight
-  * Turn the light off if it was left on for half an hour
-  * Turn the light on with the alarm
-* Front of the house
-  * Turn on the light by the house number on at dusk, and at 06:00 (or earlier if we're awake earlier than normal)
-  * Turn the light off at sunrise and (just before) midnight
-  * Send alerts if we've left the garage doors open for 10 minutes (and nag every 10 minutes)
-  * Warn us if an outside door is opened when we're away from home
-  * Warn us if the garage doors are opened once we've gone to bed
-* Back of the house
-  * Turn on the garden lights if the utility door is opened between dusk and dawn (elevation below -5). This temporarily turns off the "off" automations - for 8 seconds (controlled by an input_number)
-  * Turn off the garden lights when the utility door is closed
-  * Turn off the lights if they're left on and the door is closed
-* Lounge
-  * Turn on the lights when we come home and it's dark
-  * Turn off the lights if we all leave (and the TV is off)
-  * Turn on lights as the room gets dark (if we're home, and the TV is on)
-  * Turn on the table light if motion is detected in the dark, and turn it off 2 minutes after the last motion detection
-  * Mute the TV if the Sonos starts playing, and unmute when it stops
-  * Stop the Sonos if the TV is turned on
-  * At the end of the night, when the TV has been off for 5 minutes, or the utility door has been shut after the TV is turned off, run the bedtime script (turns of the lights one at a time)
-* Hall
-  * During Autumn and Winter, turn on the LED lights when the sun is below 5 degrees elevation (and we're home). Our hall is an internal hall with no windows, so it gets dark quickly.
-* Home office
-  * When I'm working for home, start music at the beginning of the day, and stop it at the end
-* People
-  * Track when we get up, go to bed, leave, and return, for other automations
-  * Notify about commute delays
-  * Let the adults know when the other is going to be home
-* Misc
-  * When battery powered sensors are getting low (25%) warn us so that we know to order a replacement, remind again at 10% and 5%
-  * Check the health of the Z-Wave mesh (by looking to see that at least one device has checked in within the last 5 minutes) and run a Heal and Test if necessary
-  * Send notifications on startup and shutdown of HA, and when the Z-Wave mesh is ready
-  * Notify us about bin collections being due (links in with a green/amber/red Floorplan notification)
-* MoreToDo 
-
-### Garden lights
-
-This is the most complex of my current automations, to make it "human friendly". The basic logic is that there are automations to turn the light on when the door opens, and off when it closes. To stop that simply having the light on when the door is open, it actually calls a script to turn on the lights. That script turns off the "off" automation temporarily - the duration is determined by the value of `input_number.door_delay` (in seconds).  That means that if we open and close the door (to let the dog out or going out into the garden for some other reason) the lights will stay on when the door closes.  There's another automation (and a template binary sensor) to track if the lights have been left on, and if so to turn them off. That supports a variable delay up to 2 hours, or we can just turn off the automation.
+* If you were following along, you'll note I use three different device trackers, two for home (nmap, bluetooth) and one for away (GPSLogger). I explain more about [this here](https://blog.ceard.tech/2018/01/home-assistant-and-basic-presence.html), with an update [here](https://blog.ceard.tech/2018/09/a-while-back-i-covered-how-i-was-doing.html), and [another update](https://blog.ceard.tech/2018/10/presence-detection-update-3.html) (there will be a fourth update now I'm using monitor). Short version - I don't use groups, or merge the trackers. Both of those approaches have major shortcomings, for the first if you have a misbehaving sensor that's stuck at `home` you'll never be marked as away. For the second, the last one to update wins, so you can flip flop between two states. I'm experimenting with the [Bayesian](https://www.home-assistant.io/components/binary_sensor.bayesian) sensor and some automation logic - so far it's the automation logic that's winning for me.
 
 ## Notes
 
 * These are (automatically) modified versions of my actual configurations
-* My primary goal is to minimise human actions, and where that isn't possible streamline those human actions
+* The goals with Home Assistant have been:
+  1. Minimise human actions, and where that isn't possible streamline those human actions
+  2. Provide voice control where the automations don't get it right (but try to fix that)
+  3. Have a minimal UI to provide manual control (this is currently the Google Home app)
 
 # Future plans
 
@@ -147,4 +123,8 @@ A large amount of this will require a rewire of the lighting circuits, so that a
 
 * [Home Assistant documentation](https://home-assistant.io/docs/) and [component list](https://home-assistant.io/components/)
 * Problems with Z-Wave delays and inconsistencies? Try [this script](https://hastebin.com/igujenogud.coffeescript) in the dev-states section and you'll see if you've problem devices - shown by an RTT value of 1,000 or more, and retries significantly more than other devices
-* [My blog](http://ceard.tech/) on home automation and other things
+* [My blog](https://ceard.tech/) on home automation and other things
+
+# Coffee
+
+If I've helped you, and you really want to, you can [buy me a coffee](https://buymeacoff.ee/9MWvkxr8P), but don't feel obliged - I'm not doing this for free coffee ;)

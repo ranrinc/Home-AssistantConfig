@@ -71,7 +71,7 @@ background-color: var(--primary-background-color);
 
 .alarm-disarmed {
   fill: #81D9a7 !important;
-  fill-opacity: 1 !important;
+  fill-opacity: 0.5 !important;
 }
 
 .alarm-triggered {
@@ -211,7 +211,7 @@ background-color: var(--primary-background-color);
 .camera-idle {
 /*  fill: #B9CEF7 !important; */
 /*  fill: #6FAECE !important; */
-  fill: #92907D !important;
+  fill: #8270A2 !important;
 }
 
 /* Light */

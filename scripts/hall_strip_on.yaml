@@ -1,0 +1,24 @@
+alias: Hall strip on
+sequence:
+  - service: switch.turn_on
+    entity_id: switch.flux_hall
+  - wait_template: "{{ states('light.hall') != 'unavailable' }}"
+    timeout: '00:05:00'
+  - service: light.turn_on
+    data:
+      entity_id: light.hall
+      transition: 5
+      brightness: 15
+      color_name: white
+  - delay: 00:01:00
+  - wait_template: "{{ states('light.hall') != 'unavailable' }}"
+    timeout: '00:05:00'
+  - condition: state
+    entity_id: light.hall
+    state: 'off'
+  - service: light.turn_on
+    data:
+      entity_id: light.hall
+      transition: 5
+      brightness: 15
+      color_name: white

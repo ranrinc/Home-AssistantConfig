@@ -1,6 +1,6 @@
 homeassistant:
   # Name of the location where Home Assistant is running
-  name: Home
+  name: The House
   # Location required to calculate the time the sun rises and sets
   latitude: !secret latitude
   longitude: !secret longitude
@@ -12,88 +12,137 @@ homeassistant:
   time_zone: Europe/London
   #time_zone: Etc/UTC
   customize: !include customize.yaml
+  whitelist_external_dirs: 
+    - /data/homeassistant
+
+default_config:
+
+person:
+
+#introduction:
+
+#logger:
 
 config:
 
 map:
 
+cloud: !include cloud.yaml
+
 frontend: !include frontend.yaml
+
+lovelace:
+  mode: yaml
 
 http:
   # Uncomment this to add a password (recommended!)
-  # api_password: PASSWORD
+  #api_password: !secret api_passsword
   # Uncomment this if you are using SSL or running in Docker etc
-  # base_url: example.duckdns.org:8123
+  # base_url: !secret base_url
+  #trusted_networks: 192.168.0.0/24
+  trusted_proxies: 127.0.0.1
+  use_x_forwarded_for: true
+  # ip_ban_enabled: true
+  # login_attempts_threshold: 3
 
-updater:
-  include_used_components: true
+#updater:
 
 discovery:
 
-conversation:
+#zeroconf:
+
+#conversation:
 
 history:
 
 logbook:
 
 recorder:
-  db_url: sqlite:///data/homeassistant/homeassistant.sqlite
-  purge_interval: 2
-  purge_keep_days: 7
+  db_url: sqlite:///data/homeassistant/home-assistant.sqlite
+  purge_interval: 1
+  purge_keep_days: 4
+  #db_url: !secret mysql_url
+
+influxdb: !include influxdb.yaml
 
 tts:
-  platform: google
+  - platform: google
+  - platform: picotts
+    language: 'en-GB'
 
 zwave:
   usb_path: /dev/ttyAMA0
-  device_config: !include zwave_device_config.yaml
   network_key: !secret zwave_network_key
 
-device_tracker: !include device_tracker.yaml
+mqtt:
+  broker: 127.0.0.1
+
+#mqtt_eventstream:
+
+#mqtt_eventstream:
+
+####################
+
+device_tracker: !include_dir_list device_tracker/
 
 zone: !include zones.yaml
 
 proximity: !include_dir_merge_named proximity/ 
 
+####################
+
 notify: !include_dir_merge_list notify/
 
-alert: !include alerts.yaml
+alert: !include_dir_named alerts/
 
 lametric:
   client_id: !secret lametric_id
   client_secret: !secret lametric_secret
 
+####################
+
 google: !include google.yaml
 
-sensor: !include_dir_merge_list sensors/
+####################
 
+sensor: !include_dir_merge_list sensors/
 binary_sensor: !include_dir_merge_list binary_sensors/
 
 sun:
-
 camera: !include_dir_list camera/
+climate: !include_dir_merge_list climate/
 
-input_number: !include input_number.yaml
+#ffmpeg:
 
-input_boolean: !include input_boolean.yaml
+####################
 
-input_select: !include input_select.yaml
+input_number: !include_dir_named input_number/
+input_boolean: !include_dir_named input_boolean/
+input_select: !include_dir_named input_select/
+input_datetime: !include_dir_named input_datetime/
+
+####################
 
 light: !include_dir_merge_list light/
-
 switch: !include_dir_merge_list switch/
+media_player: !include_dir_merge_list media_player/ 
 
-media_player: !include media_player.yaml
+####################
 
 script: !include_dir_named scripts/
-
+ # This is for the automation editor, you'll not find anything in there
 automation: !include automations.yaml
-
+ # This is for my automations, `old` is just a tag - see https://www.home-assistant.io/docs/configuration/devices/
 automation old: !include_dir_list automation/
-
 scene: !include_dir_list scenes/
-
+shell_command: !include_dir_merge_named shell_commands/
 group: !include groups.yaml
+
+####################
+
+#datadog:
+
+#panel_iframe: !include_dir_merge_named panel_iframe/
 
 panel_custom:
   - name: floorplan
@@ -101,23 +150,23 @@ panel_custom:
     sidebar_icon: mdi:floor-plan
     url_path: floorplan
     config: !include floorplan.yaml
+  - name: zwavegraph
+    sidebar_title: ZWave Graph2
+    sidebar_icon: mdi:z-wave
+    url_path: zwave
 
-alarm_control_panel:
-  - platform: manual
-    name: "HA Alarm"
-    code: !secret alarm_code
-    pending_time: 60
-    trigger_time: 120
-    delay_time: 30
-    disarm_after_trigger: false
-    disarmed:
-      trigger_time: 0
-    armed_home:
-      pending_time: 0
-      delay_time: 0
+alarm_control_panel: !include_dir_list alarm/
 
-google_assistant: !include google_assistant.yaml
+####################
 
-dialogflow:
+#zoneminder:
 
-intent_script: !include intent_scripts.yaml
+#google_assistant: !include google_assistant.yaml
+
+#dialogflow:
+#intent_script: !include intent_scripts.yaml
+intent_script: !include_dir_named intent_scripts/
+
+weather: !include_dir_merge_list weather/
+
+#image_processing:

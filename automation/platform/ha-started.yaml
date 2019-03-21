@@ -1,0 +1,15 @@
+alias: 'HA started'
+initial_state: 'on'
+trigger:
+  platform: homeassistant
+  # Event can also be 'shutdown'
+  event: start
+action:
+  - service: script.notify_person2
+    data:
+      message: "Home Assistant has started"
+  - service: frontend.set_theme
+    data:
+      name: 'midnight'
+  - service: switch.turn_on
+    entity_id: switch.flux_hall

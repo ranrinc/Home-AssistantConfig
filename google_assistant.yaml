@@ -6,8 +6,24 @@ api_key: !secret assistant_api_key
 exposed_domains:
   - switch
   - light
+  - climate
 entity_config:
   switch.number_sign_switch:
     expose: false
   script.bedtime_slow_off:
-    name: "Time for bed"
+    expose: true
+    name: "Bedtime"
+  script.wake_person1:
+    expose: true
+    name: "Wake person1"
+  input_boolean.guest_mode:
+    expose: true
+    name: "Guest mode"
+  light.master_bedroom_bedhead:
+    room: "Master Bedroom"
+  media_player.cast_master_bedroom_speaker:
+    room: "Master Bedroom"
+  switch.master_bedroom_socket_switch:
+    room: "Master Bedroom"
+  group.garage_alert:
+    expose: true

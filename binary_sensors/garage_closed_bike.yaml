@@ -1,11 +1,8 @@
+## Sensor that merges two sensors into one hopefully more reliable one (sometimes when closing, only one is updated)
 - platform: template
   sensors: 
     garage_closed_bike:
-      device_class: opening
+      device_class: garage_door
+      entity_id: sensor.garage_closed_bike_access_control, binary_sensor.garage_closed_bike_sensor
       friendly_name: 'Garage door, bike'
-      value_template: >- 
-        {%- if is_state('binary_sensor.garage_closed_bike_sensor', 'on') and is_state('sensor.garage_closed_bike_access_control', '22') -%}
-        on
-        {%- else -%}
-        off
-        {%- endif -%}
+      value_template: "{{ is_state('sensor.garage_closed_bike_access_control', '22') and is_state('binary_sensor.garage_closed_bike_sensor', 'on') }}"

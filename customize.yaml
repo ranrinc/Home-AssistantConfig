@@ -10,27 +10,51 @@ sensor.hass_installed:
   icon: mdi:folder-download
 sensor.current_ha_version:
   icon: mdi:github-circle
+device_tracker.person1_mobile:
+  friendly_name: "person1 GPS"
+device_tracker.person1_mobile_wifi:
+  friendly_name: "person1 WiFi"
+  icon: mdi:wifi
+device_tracker.person3_mobile:
+  friendly_name: "person3 GPS"
+device_tracker.person3_mobile_wifi:
+  friendly_name: "person3 WiFi"
+  icon: mdi:wifi
+sensor.person1s_time_to_home_2:
+  friendly_name: "person1's travel time to home"
+sensor.person2s_time_to_home_2:
+  friendly_name: "person2's travel time to home"
+sensor.person3s_time_to_home_2:
+  friendly_name: "person3's travel time to home"
 sensor.person1s_time_to_home:
-  entity_picture: /local/person1Thumb.jpg
   friendly_name: "person1's travel time to home"
 sensor.person1s_time_to_home_by_transit:
-  entity_picture: /local/person1Thumb.jpg
   friendly_name: "person1's bus time to home"
 sensor.person2s_time_to_home:
-  entity_picture: /local/person2Thumb.jpg
   friendly_name: "person2's travel time to home"
 sensor.person3s_time_to_home:
-  entity_picture: /local/person3Thumb.jpg
   friendly_name: "person3's travel time to home"
+device_tracker.001d29a549ae:
+  friendly_name: person4
+  icon: mdi:bluetooth
+device_tracker.person4_mobile:
+  friendly_name: person4
+sensor.person4s_time_to_home:
+  friendly_name: "person4's travel time to home"
+sensor.person4_travel:
+  friendly_name: "person4"
+  entity_picture: /local/person4Thumb.jpg
 sensor.person2_travel:
-  entity_picture: /local/person2Thumb.jpg
   friendly_name: "person2"
+  entity_picture: /local/person2Thumb.jpg
 sensor.person3_travel:
-  entity_picture: /local/person3Thumb.jpg
   friendly_name: "person3"
+  entity_picture: /local/person3Thumb.jpg
 sensor.person1_travel:
-  entity_picture: /local/person1Thumb.jpg
   friendly_name: "person1"
+  entity_picture: /local/person1Thumb.jpg
+#input_slider.garden_time:
+#input_slider.door_delay:
 input_number.garden_time:
   icon: mdi:timer
 input_number.door_delay:
@@ -101,9 +125,13 @@ binary_sensor.garage_closed_car:
 binary_sensor.garage_closed_bike_sensor:
   friendly_name: Garage door, left
   device_class: garage_door
+#binary_sensor.garage_door_bike_sensor:
 binary_sensor.garage_closed_car_sensor:
   friendly_name: Garage door, car
   device_class: garage_door
+#binary_sensor.garage_car_sensor:
+#sensor.garage_door_l:
+#sensor.garage_door_r:
 sensor.office_multi_luminance:
   friendly_name: "Office light level"
   icon: mdi:white-balance-sunny
@@ -122,8 +150,7 @@ sensor.office_motion:
   icon: mdi:account
 binary_sensor.office_multi_sensor:
   friendly_name: "Office motion sensor"
-  sensor_class: motion
-  icon: mdi:account
+  device_class: motion
 group.my_scenes:
   order: 1
 group.my_people:
@@ -138,7 +165,7 @@ device_tracker.tv_living_room:
   friendly_name: "TV in the lounge"
   icon: mdi:television
 media_player.samsung_tv_remote:
-  friendly_name: "TV in the lounge"
+  friendly_name: "Samsung TV in the lounge"
   icon: mdi:television
 media_player.living_room_tv:
   friendly_name: "Chromecast in the lounge"
@@ -158,6 +185,8 @@ device_tracker.livingroom_chromecast:
 device_tracker.family_tv:
   friendly_name: "TV in the family room"
   icon: mdi:television
+device_tracker.livingroom_tv:
+  icon: mdi:television
 zwave.front_spare_extender:
   friendly_name: "Z-Wave extender"
 zwave.master_bedroom_socket:
@@ -169,7 +198,9 @@ zwave.cabinet_light:
 zwave.garden_lights:
   friendly_name: "Garden lights"
 zwave.nodon_crc3100_octan_remote:
-  friendly_name: "Remote"
+  friendly_name: "Octan remote"
+zwave.green_remote:
+  friendly_name: "Green remote"
 zwave.utility:
   friendly_name: "Utility exterior switch"
 zwave.number_sign:
@@ -194,10 +225,9 @@ zwave.garage_car:
   friendly_name: "Garage door (tilt), car"
 zwave.spare_socket:
   friendly_name: "Spare socket"
-  icon: mdi:power
 switch.master_bedroom_socket_switch:
   friendly_name: "Master bedroom socket"
-  icon: mdi:power-socket-uk
+  icon: mdi:power
 switch.second_bedroom_switch:
   friendly_name: "Second bedroom socket"
   icon: mdi:power
@@ -209,17 +239,22 @@ zwave.zwaveme_razberry_controller_2016_zwave:
   icon: mdi:raspberrypi
 binary_sensor.workday_sensor:
   icon: mdi:calendar-clock
+group.person_dor:
+  entity_picture: /local/person4Thumb.jpg
 group.person_person2:
   entity_picture: /local/person2Thumb.jpg
-device_tracker.person2_mobile_bt:
-  entity_picture: /local/person2Thumb.jpg
-group.person_person3:
-  entity_picture: /local/person3Thumb.jpg
-device_tracker.person3_mobile_bt:
-  entity_picture: /local/person3Thumb.jpg
+device_tracker.serenity:
+  friendly_name: "person2 BT"
+device_tracker.404e36245315:
+  friendly_name: "person2 WiFi"
+device_tracker.person2_mobile_gps:
+  friendly_name: "person2 GPS"
+device_tracker.nexus_5x:
   friendly_name: person3 BT
+device_tracker.person3_mobile_bt:
+  friendly_name: person3 BT Old
 binary_sensor.living_room_motion:
-  icon: mdi:account-multiple
+  device_class: motion
 sensor.living_room_multi_luminance:
   friendly_name: 'Lounge Light level'
   icon: mdi:white-balance-sunny
@@ -230,7 +265,7 @@ zwave.living_room_multi:
 device_tracker.person1_headphones:
   friendly_name: "person1's headphones"
   icon: mdi:headphones
-device_tracker.laptop:
+device_tracker.jayne:
   friendly_name: "person2's laptop"
   icon: mdi:laptop-windows
 device_tracker.person2s_tablet_bt:
@@ -241,7 +276,6 @@ device_tracker.person2_tablet:
 device_tracker.person1_tablet:
   icon: mdi:tablet-android
 device_tracker.person3_mobile_bt:
-  entity_picture: /local/person1Thumb.jpg
   friendly_name: "person1's mobile (BT)"
 group.person_person1:
   entity_picture: /local/person1Thumb.jpg
@@ -249,6 +283,8 @@ device_tracker.timetrveller:
   entity_picture: /local/person2Work.jpg
 group.person_person2_work:
   entity_picture: /local/person2Work.jpg
+#binary_sensor.floorplan:
+##  config: !include floorplan.yaml
 sensor.next_train_xyz_estimated:
   icon: mdi:clock-fast
 sensor.next_train_xyz_scheduled:
@@ -302,32 +338,55 @@ binary_sensor.garden_lights_left_on:
   icon: mdi:lightbulb
 sensor.zwave_battery_garage_car:
   friendly_name: "Garage door (tilt), car"
+  device_class: battery
 sensor.zwave_battery_garage_closed_bike:
   friendly_name: "Garage door, bike"
+  device_class: battery
 sensor.zwave_battery_garage_closed_car:
   friendly_name: "Garage door, car"
+  device_class: battery
 sensor.zwave_battery_garage_door_bike:
   friendly_name: "Garage door (tilt), bike"
+  device_class: battery
 sensor.zwave_battery_living_room_multi:
   friendly_name: "Living room multi-sensor"
+  device_class: battery
 sensor.zwave_battery_nodon_crc3100_octan_remote:
   friendly_name: "Nodon remote"
+  device_class: battery
+sensor.zwave_battery_green_remote:
+  friendly_name: "Green remote"
+  device_class: battery
 sensor.zwave_battery_patio_door_left:
   friendly_name: "Patio door (left)"
+  device_class: battery
 sensor.zwave_battery_utility_door_exterior:
   friendly_name: "Utility door strip"
+  device_class: battery
 sensor.zwave_battery_utility:
   friendly_name: "Utility exterior switch"
+  device_class: battery
+sensor.zwave_battery_front_door:
+  friendly_name: "Front door"
+  device_class: battery
+sensor.battery_person4_mobile:
+  friendly_name: "person4's mobile"
+  device_class: battery
 sensor.battery_person3_mobile:
   friendly_name: "person3's mobile"
+  device_class: battery
 sensor.battery_person1_mobile:
   friendly_name: "person1's mobile"
+  device_class: battery
 sensor.battery_person1_tablet:
   friendly_name: "person1's tablet"
+  device_class: battery
 sensor.battery_person2_mobile:
   friendly_name: "person2's mobile"
+  device_class: battery
 sensor.battery_person2_tablet:
   friendly_name: "person2's tablet"
+  device_class: battery
 sensor.printer_forward_roller_remaining:
   friendly_name: "Forward roller remaining"
 sensor.printer_fuser_life_remaining:
@@ -342,6 +401,7 @@ sensor.printer_toner_remaining:
   friendly_name: "Toner remaining"
 sensor.printer_transfer_roller_remaining:
   friendly_name: "Transfer roller remaining"
+#script.bedtime_slow_off:
 script.bedhead_light_bright:
   google_assistant: false
 script.bedhead_light_cool_pause:
@@ -376,28 +436,23 @@ switch.hall_downstairs_switch:
   icon: mdi:stairs
 switch.livingroom_socket_switch:
   friendly_name: "Living room socket"
-  icon: mdi:power
+  icon: mdi:power-socket-uk
 switch.front_bedroom_switch:
   friendly_name: "Front bedroom socket"
-  icon: mdi:power
+  icon: mdi:power-socket-uk
 switch.vestibule_switch:
   friendly_name: "Vestibule socket"
-  icon: mdi:power
+  icon: mdi:power-socket-uk
 zwave.family_room_socket:
   friendly_name: "Family room socket"
-  icon: mdi:power
 zwave.hall_downstairs:
   friendly_name: "Downstairs hall socket"
-  icon: mdi:stairs
 zwave.livingroom_socket:
   friendly_name: "Living room socket"
-  icon: mdi:power
 zwave.vestibule:
   friendly_name: "Vestibule socket"
-  icon: mdi:power
 zwave.front_bedroom:
   friendly_name: "Front bedroom socket"
-  icon: mdi:power
 binary_sensor.front_door_sensor:
   device_class: door
   friendly_name: Front door
@@ -409,3 +464,24 @@ input_select.person1_status_dropdown:
   entity_picture: /local/person1Thumb.jpg
 input_select.person2_status_dropdown:
   entity_picture: /local/person2Thumb.jpg
+script.wake_person1:
+  friendly_name: "Wake person1"
+sensor.sun_elevation:
+  friendly_name: "Sun elevation"
+device_tracker.00e04c680550:
+  friendly_name: "Work laptop"
+  picture: /local/images/work_laptop.jpg
+binary_sensor.trend_sun_elevation:
+  icon: mdi:white-balance-sunny
+input_boolean.person2_home:
+  icon: mdi:human-male
+input_boolean.person3_home:
+  icon: mdi:human-female
+input_boolean.person1_home:
+  icon: mdi:human-child
+input_boolean.alarm_mode:
+  icon: mdi:shield-home
+input_boolean.holiday_mode:
+  icon: mdi:shield-airplane
+input_boolean.all_away:
+  icon: mdi:account-group

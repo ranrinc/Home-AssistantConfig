@@ -1,9 +1,0 @@
-alias: 'HA ready'
-initial_state: 'on'
-trigger:
-  platform: event
-  event_type: zwave.network_ready
-action:
-  - service: notify.slack_notify
-    data:
-      message: "The Z-Wave network is now ready"

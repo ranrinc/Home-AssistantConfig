@@ -1,0 +1,11 @@
+alias: 'HA ready'
+initial_state: 'on'
+trigger:
+  platform: event
+  event_type: zwave.network_ready
+action:
+  - service: script.notify_person2
+    data:
+      message: "The Z-Wave network is now ready"
+  - service: homeassistant.turn_on
+    entity_id: group.my_automations_battery

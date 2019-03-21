@@ -1,0 +1,31 @@
+initial_state: 'on'
+alias: 'Lounge dark motion'
+trigger:
+  platform: state
+  entity_id: binary_sensor.living_room_motion
+  to: 'on'
+condition:
+  condition: and
+  conditions:
+    - condition: state
+      entity_id: input_boolean.lighting_automations
+      state: 'on'
+    - condition: numeric_state
+      entity_id: sensor.living_room_multi_luminance
+      below: 5
+    - condition: state
+      entity_id: switch.table_light_switch
+      state: 'off'
+    - condition: or
+      conditions:
+      - condition: state
+        entity_id: input_select.living_room
+        state: Night off
+      - condition: state
+        entity_id: input_select.living_room
+        state: Day off
+action:
+  - service: homeassistant.turn_on
+    entity_id: input_boolean.livingroom_lights_auto
+  - service: switch.turn_on
+    entity_id: switch.table_light_switch

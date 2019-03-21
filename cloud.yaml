@@ -1,0 +1,68 @@
+google_actions:
+  filter:
+    include_domains:
+      - switch
+      - light
+      - climate
+    exclude_entities:
+      - switch.number_sign_switch
+      - switch.front_bedroom_switch
+      - switch.radio_person1
+      - switch.radio_person2
+      - switch.second_bedroom_switch
+      - switch.spare_socket_switch
+      # Duplicates of actual bedroom lights
+      - light.yeelight_strip_286c07afc307
+      - light.yeelight_strip_7811dca22b87
+      # Individual light, we're using the group
+      - light.downstairs_hall
+      # Controls
+      - switch.flux_hall
+      - switch.fluxer
+    include_entities:
+      - script.wake_person1
+      - input_boolean.guest_mode
+  entity_config:
+    input_boolean.guest_mode:
+      room: "Guest Room"
+      name: "Guest mode"
+    script.bedtime_slow_off:
+      name: "Bedtime"
+    script.wake_person1:
+      name: "Wake person1"
+    light.hall:
+      room: "Downstairs hall"
+    switch.hall_downstairs_switch:
+      room: "Downstairs hall"
+    switch.flux_hall:
+      room: "Attic"
+    switch.fluxer:
+      room: "Attic"
+    switch.family_room_socket_switch:
+      room: "Family Room"
+    switch.cabinet_light_switch:
+      room: "Living Room"
+    switch.tv_light_switch:
+      room: "Living Room"
+    switch.table_light_switch:
+      room: "Living Room"
+    switch.livingroom_socket_switch:
+      room: "Living Room"
+    switch.master_bedroom_socket_switch:
+      room: "Master Bedroom"
+    light.master_bedroom_bedhead:
+      room: "Master Bedroom"
+    switch.garden_lights_switch:
+      room: "Outside"
+    switch.second_bedroom_switch:
+      room: "Second Bedroom"
+    switch.spare_socket_switch:
+      room: "Spare Bedroom"
+    switch.vestibule_switch:
+      room: "Vestibule"
+    switch.front_bedroom_switch:
+      room: "Guest Room"
+alexa:
+  filter:
+    include_domains:
+      - cover

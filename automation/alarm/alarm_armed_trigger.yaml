@@ -1,0 +1,18 @@
+initial_state: 'on'
+alias: 'Alarm armed trigger'
+trigger:
+  - platform: state
+    entity_id: group.my_exterior_doors
+    to: 'on'
+condition:
+  # Alarm is armed
+  - condition: state
+    entity_id: alarm_control_panel.ha_alarm
+    state: armed_away
+  # Nobody's home
+  - condition: state
+    entity_id: input_boolean.adults_away
+    state: 'on'
+action:
+  - service: alarm_control_panel.alarm_trigger
+    entity_id: alarm_control_panel.ha_alarm

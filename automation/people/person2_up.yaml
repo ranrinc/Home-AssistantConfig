@@ -1,0 +1,48 @@
+alias: 'person2 up'
+initial_state: 'on'
+trigger:
+  # Music is playing
+  - platform: state
+    entity_id: 
+      - media_player.master_bedroom_speaker
+      - media_player.person2
+    to: 'playing'
+  # Phone is unplugged
+  - platform: state
+    entity_id: input_boolean.person2_phone_charging
+    to: 'off'
+  # Bedhead light is on
+  - platform: state
+    entity_id: 
+      - light.master_bedroom_bedhead
+      - light.yeelight_strip_286c07afc307
+    to: 'on'
+    for:
+      minutes: 1
+  # I leave home
+  - platform: state
+    entity_id: input_boolean.person2_home
+    to: 'off'
+    for:
+      minutes: 5
+  # The laptop is on
+  - platform: state
+    entity_id: group.person_person2_laptop
+    to: 'home'
+    for:
+      minutes: 2
+condition:
+  - condition: state
+    entity_id: input_boolean.person2_is_awake
+    state: 'off'
+  - condition: or
+    conditions:
+    - condition: time
+      after: '04:00:00'
+      before: '18:00:00'
+    - condition: state
+      entity_id: input_boolean.person2_home
+      state: 'off'
+action:
+  - service: input_boolean.turn_on
+    entity_id: input_boolean.person2_is_awake

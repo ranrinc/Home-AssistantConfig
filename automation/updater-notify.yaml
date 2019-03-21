@@ -1,9 +1,0 @@
-alias: 'HA Update Available Notifications'
-initial_state: 'on'
-trigger:
-  platform: state
-  entity_id: updater.updater
-action:
-  service: notify.push
-  data:
-    message: 'Update for Home Assistant is available.'
